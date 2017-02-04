@@ -1,8 +1,6 @@
 Rails.application.routes.draw do
 
-  get 'products/index'
-
-  get 'products' => 'products#products'   #do I need this?  what's this?
+  get 'products' => 'products#index'
 
   get 'products/new'
 

@@ -1,2 +1,21 @@
-<h1>Products#index</h1>
-<p>Find me in app/views/products/index.html.erb</p>
+<h1>Products</h1>
+<table>
+  <thead>
+    <th>Name</th><th>Category</th><th>Description</th><th>Price</th><th>Action</th>
+  </thead>
+  <tbody>
+    <% @products.each do |prod| %>
+    <tr>
+      <td><%= prod.name %></td>
+      <td><%= prod.category.name %></td>
+      <td><%= prod.description %></td>
+      <td>$<%= prod.pricing %></td>
+      <td><a href="/products/<%= prod.id %>" data-method="get">Show</a> |
+        <a href="/products/<%= prod.id %>/edit">Edit</a> |
+        <a href="/products/<%= prod.id %>" data-method="delete">Delete</a>
+      </td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>
+<a href="/products/new">New Product</a>
