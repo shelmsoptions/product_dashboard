@@ -4,6 +4,7 @@ class ProductsController < ApplicationController
 
   def products
     @products = Product.all
+    @categories = Category.all
   end
 
   def show
@@ -11,21 +12,30 @@ class ProductsController < ApplicationController
   end
 
   def new
-    @product = Product.new
+    @product = Product.new       #  needed?
     @categories = Category.all
   end
 
   def edit
     @product = Product.find(params[:id])
+    @categories = Category.all
   end
 
   def create
-    product = Product.create( set_params )
-    redirect_to "/products"
+    # product = Product.create( set_params )
+    category = Category.find(set_params[:category])
+    product = Product.new(name: set_params[:name], description: set_params[:description], pricing: set_params[:pricing], category: category)
+    if product.save
+      redirect_to "/products"
+    else
+      redirect_to "/products/new"
+    end
   end
 
   def update
-    prod = Product.find(params[:id]).update( set_params )
+    category = Category.find(set_params[:category])
+    product = Product.find(params[:id])
+    prod = Product.find(params[:id]).update( name: set_params[:name], description: set_params[:description], pricing: set_params[:pricing], category: category )
     redirect_to "/products/#{params[:id]}"
   end
 
@@ -36,6 +46,6 @@ class ProductsController < ApplicationController
 
   private
   def set_params
-    params.require(:product).permit(:name, :category_id, :description, :pricing)
+    params.require(:product).permit(:name, :description, :pricing, :category)
   end
 end
